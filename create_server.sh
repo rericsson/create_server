@@ -5,7 +5,16 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-API_TOKEN=$(cat ~/.hetzner_api)
+API_TOKEN=$(<~/.hetzner_api)
+
+# ensure we can connect to Hetzner
+api_response=$(curl -s -o /dev/null -w "%{response_code}" -H "Authorization: Bearer $API_TOKEN" \
+	"https://api.hetzner.cloud/v1/actions")
+if [[ $api_response != "200" ]];
+then
+	echo "Could not connect to Hetzner API. Check key."
+	exit 1
+fi
 
 # define variables
 name=""

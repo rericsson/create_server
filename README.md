@@ -2,7 +2,7 @@ This is a script to create servers on Hetzner Cloud. You need to have your Hetzn
 
 A couple of changes that I plan to make:
 
-- check the API key at the beginning
+- improve error handling
 - do some functional refactoring
 - add cloud init 
 
