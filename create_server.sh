@@ -83,8 +83,9 @@ if [[ -z "$image" ]]
 then
 	images_json=$(curl -s -H "Authorization: Bearer $API_TOKEN" \
 		"https://api.hetzner.cloud/v1/images?type=system")
-	images=( $(echo $images_json | grep -o '"name": "[^"]*' | grep -o '[^"]*$') )
-	
+	raw_images=( $(echo $images_json | grep -o '"name": "[^"]*' | grep -o '[^"]*$') )
+	# get unique list as there are duplicates
+	images=($(for i in "${raw_images[@]}"; do echo "${i}"; done | sort -u))
 	# select an image  from the list
 	echo "image?"
 	select image in "${images[@]}"; do
